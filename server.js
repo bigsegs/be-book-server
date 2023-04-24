@@ -57,13 +57,15 @@ const server = http.createServer((request, response) => {
         fs.readFile('./data/books.json')
         .then((fileContents) => {
             const booksArr = JSON.parse(fileContents)
-            console.log(booksArr)
-            const {...books, booksArr  } = books
-            return fs.writeFile('./data/books.json', JSON.stringify(books, null, 2))
+            //console.log(booksArr)
+            console.log(newBook)
+            const returnBooks = [...booksArr, newBook]  
+            return fs.writeFile('./data/books.json', JSON.stringify(returnBooks, null, 2))
             .then(()=>{
                 response.setHeader('Content-Type', 'applications/json')
-                response.statusCode = 201
-                response.write(JSON.stringify(books, null, 2))
+                response.statusCode = 201;
+                console.log({returnBooks},"before JSON.stringify")
+                response.write(JSON.stringify({returnBooks}))
                 response.end()
             })
         })
